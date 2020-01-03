@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jinxiang.order.dao.OrderDetailMapper">
+    <resultMap id="BaseResultMap" type="com.jinxiang.order.pojo.OrderDetail">
+        <id column="ord" property="ord" jdbcType="BIGINT"/>
+        <result column="orderId" property="orderId" jdbcType="BIGINT"/>
+        <result column="commodity" property="commodity" jdbcType="BIGINT"/>
+        <result column="commodityName" property="commodityName" jdbcType="VARCHAR"/>
+        <result column="commodityPrice" property="commodityPrice" jdbcType="VARCHAR"/>
+        <result column="commodityColor" property="commodityColor" jdbcType="VARCHAR"/>
+        <result column="count" property="count" jdbcType="DECIMAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ord, orderId, commodity, count
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from OrderDetail
+        where ord = #{ord,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from OrderDetail
+    where ord = #{ord,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.jinxiang.order.pojo.OrderDetail">
+    insert into OrderDetail (ord, orderId, commodity, 
+      count)
+    values (#{ord,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{commodity,jdbcType=BIGINT}, 
+      #{count,jdbcType=DECIMAL})
+  </insert>
+    <insert id="insertSelective" parameterType="com.jinxiang.order.pojo.OrderDetail">
+        insert into OrderDetail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ord != null">
+                ord,
+            </if>
+            <if test="orderId != null">
+                orderId,
+            </if>
+            <if test="commodity != null">
+                commodity,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ord != null">
+                #{ord,jdbcType=BIGINT},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=BIGINT},
+            </if>
+            <if test="commodity != null">
+                #{commodity,jdbcType=BIGINT},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jinxiang.order.pojo.OrderDetail">
+        update OrderDetail
+        <set>
+            <if test="orderId != null">
+                orderId = #{orderId,jdbcType=BIGINT},
+            </if>
+            <if test="commodity != null">
+                commodity = #{commodity,jdbcType=BIGINT},
+            </if>
+            <if test="count != null">
+                count = #{count,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where ord = #{ord,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jinxiang.order.pojo.OrderDetail">
+    update OrderDetail
+    set orderId = #{orderId,jdbcType=BIGINT},
+      commodity = #{commodity,jdbcType=BIGINT},
+      count = #{count,jdbcType=DECIMAL}
+    where ord = #{ord,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectByOrderId" resultMap="BaseResultMap">
+        select
+        ord, orderId, commodity, count,c.name as commodityName,
+        c.price as commodityPrice,c.color as commodityColor
+        from OrderDetail as od inner join Commodity as c on commodityId=od.commodity
+        where od.orderId=#{orderID}
+    </select>
+</mapper>

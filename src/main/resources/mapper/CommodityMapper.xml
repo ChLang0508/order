@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jinxiang.order.dao.CommodityMapper" >
+  <resultMap id="BaseResultMap" type="com.jinxiang.order.pojo.Commodity" >
+    <id column="commodityId" property="commodityId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    commodityId, name, price, color
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from Commodity
+    where commodityId = #{commodityId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from Commodity
+    where commodityId = #{commodityId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.jinxiang.order.pojo.Commodity" >
+    insert into Commodity (commodityId, name, price, 
+      color)
+    values (#{commodityId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{color,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jinxiang.order.pojo.Commodity" >
+    insert into Commodity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commodityId != null" >
+        commodityId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commodityId != null" >
+        #{commodityId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jinxiang.order.pojo.Commodity" >
+    update Commodity
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where commodityId = #{commodityId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jinxiang.order.pojo.Commodity" >
+    update Commodity
+    set name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      color = #{color,jdbcType=VARCHAR}
+    where commodityId = #{commodityId,jdbcType=BIGINT}
+  </update>
+</mapper>
