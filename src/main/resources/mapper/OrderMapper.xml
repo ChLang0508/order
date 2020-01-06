@@ -5,11 +5,12 @@
     <id column="orderId" property="orderId" jdbcType="BIGINT" />
     <result column="customerId" property="customerId" jdbcType="BIGINT" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="customerName" property="customerName" jdbcType="VARCHAR"/>
     <result column="totalSum" property="totalSum" jdbcType="DECIMAL" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    orderId, customerId, status, totalSum, createTime
+    orderId, `Order`.customerId, status, totalSum, createTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -18,17 +19,17 @@
     where orderId = #{orderId,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from Order
+    delete from `Order`
     where orderId = #{orderId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.jinxiang.order.pojo.Order" >
-    insert into Order (orderId, customerId, status, 
+    insert into `Order` (orderId, customerId, status,
       totalSum, createTime)
     values (#{orderId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, 
       #{totalSum,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.jinxiang.order.pojo.Order" >
-    insert into Order
+  <insert id="insertSelective" parameterType="com.jinxiang.order.pojo.Order" useGeneratedKeys="true" keyProperty="orderId">
+    insert into `Order`
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="orderId != null" >
         orderId,
@@ -65,7 +66,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.jinxiang.order.pojo.Order" >
-    update Order
+    update `Order`
     <set >
       <if test="customerId != null" >
         customerId = #{customerId,jdbcType=BIGINT},
@@ -83,7 +84,7 @@
     where orderId = #{orderId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jinxiang.order.pojo.Order" >
-    update Order
+    update `Order`
     set customerId = #{customerId,jdbcType=BIGINT},
       status = #{status,jdbcType=INTEGER},
       totalSum = #{totalSum,jdbcType=DECIMAL},
@@ -91,14 +92,40 @@
     where orderId = #{orderId,jdbcType=BIGINT}
   </update>
   <select id="selectBySelective" resultMap="BaseResultMap">
-
+    select <include refid="Base_Column_List"/>
+    ,C2.name as customerName
+    from `Order` inner join Customer C2 on `Order`.customerId = C2.customerId
+    where 1=1
+    <include refid="whereSql"/>
+    order by createTime DESC
+    LIMIT #{pager.start},#{pager.pageSize}
   </select>
 
   <select id="selectCount" resultType="int">
+    select COUNT(*) from `Order`
+    where 1=1
+    <include refid="whereSql"/>
+  </select>
 
+  <select id="selectByCustomerID" resultType="int">
+    select
+    <include refid="Base_Column_List" />
+    from `Order`
+    where customerId = #{customerID,jdbcType=BIGINT}
   </select>
 
   <sql id="whereSql">
-
+    <if test="order.customerId != null" >
+      and customerId = #{order.customerId,jdbcType=BIGINT}
+    </if>
+    <if test="order.status != null" >
+      and status = #{order.status,jdbcType=INTEGER}
+    </if>
+     <if test="order.customerName != null" >
+      and customerName like concat('%',#{order.customerName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="order.startTime!=null and order.endTime!=null">
+      and createTime between  #{order.startTime,jdbcType=DATE} and #{order.endTime,jdbcType=DATE}
+    </if>
   </sql>
 </mapper>

@@ -90,4 +90,16 @@
         from OrderDetail as od inner join Commodity as c on commodityId=od.commodity
         where od.orderId=#{orderID}
     </select>
+
+    <select id="selectByCommodityID" resultType="int">
+        select
+        <include refid="Base_Column_List"/>
+        from OrderDetail
+        where commodity = #{commodityID,jdbcType=BIGINT}
+    </select>
+
+    <delete id="delByOrderId">
+        delete from OrderDetail
+        where orderId = #{orderID,jdbcType=BIGINT}
+    </delete>
 </mapper>

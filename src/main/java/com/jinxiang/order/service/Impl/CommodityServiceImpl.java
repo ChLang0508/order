@@ -21,21 +21,32 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public Boolean commodityInsert(Commodity commodity) throws Exception {
-        return false;
+        return commodityMapper.insertSelective(commodity) == 1;
     }
 
     @Override
     public Boolean commodityUpdate(Commodity commodity) throws Exception {
-        return false;
+        if (commodityMapper.selectByPrimaryKey(commodity.getCommodityId()) == null) {
+            throw new Exception("选择修改的商品不存在");
+        }
+        return commodityMapper.updateByPrimaryKeySelective(commodity) == 1;
     }
 
     @Override
     public Boolean del(Long commodityID) throws Exception {
-        return false;
+        if (orderDetailMapper.selectByCommodityID(commodityID) != 0) {
+            throw new Exception("商品已被其他订单使用，不能删除");
+        }
+        if (commodityMapper.selectByPrimaryKey(commodityID) == null) {
+            throw new Exception("选择删除的商品不存在");
+        }
+        return commodityMapper.deleteByPrimaryKey(commodityID) == 1;
     }
 
     @Override
     public Pager getList(Commodity commodity, Pager pager) throws Exception {
+        pager.setList(commodityMapper.selectBySelective(pager, commodity));
+        pager.setTotalRow(commodityMapper.selectCount(commodity));
         return pager;
     }
 }

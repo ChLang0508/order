@@ -1,5 +1,7 @@
 package com.jinxiang.order.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -13,9 +15,25 @@ public class Order {
 
     private BigDecimal totalSum;
 
+    private String customerName;
+
     private Date createTime;
 
+    @JSONField(serialize = false)
+    private Date startTime;
+
+    @JSONField(serialize = false)
+    private Date endTime;
+
     private List<OrderDetail> orderDetailList;
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
     public List<OrderDetail> getOrderDetailList() {
         return orderDetailList;

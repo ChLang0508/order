@@ -24,21 +24,30 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Boolean customerInsert(Customer customer) throws Exception {
-        return null;
+        return customerMapper.insertSelective(customer) == 1;
     }
 
     @Override
     public Boolean customerUpdate(Customer customer) throws Exception {
-        return null;
+        if (customerMapper.selectByPrimaryKey(customer.getCustomerId()) == null) {
+            throw new Exception("选择的客户不存在");
+        }
+        return customerMapper.updateByPrimaryKeySelective(customer) == 1;
     }
 
     @Override
     public Boolean del(Long customerID) throws Exception {
-        return null;
+        if (orderMapper.selectByCustomerID(customerID) != 0) {
+            throw new Exception("所选择的客户存在单据，不允许删除");
+        }
+        return customerMapper.deleteByPrimaryKey(customerID) == 1;
     }
 
     @Override
     public Pager getList(Customer customer, Pager pager) throws Exception {
-        return null;
+
+        pager.setList(customerMapper.selectBySelective(pager, customer));
+        pager.setTotalRow(customerMapper.selectCount(customer));
+        return pager;
     }
 }

@@ -21,4 +21,10 @@ public interface OrderDetailMapper {
     int updateByPrimaryKey(OrderDetail record);
 
     List<OrderDetail> selectByOrderId(@Param("orderID") Long orderID);
+
+    int selectByCommodityID(@Param("commodityID") Long commodityID);
+
+    int delByOrderId(@Param("orderID") Long orderID);
+
+
 }

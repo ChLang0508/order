@@ -6,6 +6,8 @@
     <result column="commodity" property="commodity" jdbcType="BIGINT" />
     <result column="stockNum" property="stockNum" jdbcType="DECIMAL" />
     <result column="units" property="units" jdbcType="VARCHAR" />
+    <result column="commodityName" property="commodityName" jdbcType="VARCHAR" />
+    <result column="commodityColor" property="commodityColor" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     ord, commodity, stockNum, units
@@ -86,4 +88,29 @@
     where commodity=#{commodityID}
     for update
   </select>
+
+  <select id="selectBySelective" resultMap="BaseResultMap">
+    select ord, commodity, stockNum, units,
+    C2.name as commodityName,C2.color as commodityColor
+    from Stock inner join Commodity C2 on Stock.commodity = C2.commodityId
+    where 1=1
+    <include refid="whereSql"/>
+    order by ord DESC
+    LIMIT #{pager.start},#{pager.pageSize}
+  </select>
+
+  <select id="selectCount" resultType="int">
+    select COUNT(*) from Stock
+    where 1=1
+    <include refid="whereSql"/>
+  </select>
+
+  <sql id="whereSql">
+    <if test="stock.commodity != null" >
+     and commodity = #{stock.commodity,jdbcType=BIGINT}
+    </if>
+    <if test="stock.commodityName != null" >
+      and commodityName like concat('%', #{stock.commodityName,jdbcType=BIGINT},'%')
+    </if>
+  </sql>
 </mapper>

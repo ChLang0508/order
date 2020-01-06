@@ -5,6 +5,8 @@ import com.jinxiang.order.tool.Pager;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository()
 public interface OrderMapper {
     int deleteByPrimaryKey(Long orderId);
@@ -19,7 +21,10 @@ public interface OrderMapper {
 
     int updateByPrimaryKey(Order record);
 
-    int selectBySelective(@Param("pager")Pager pager,Order order);
+    List<Order> selectBySelective(@Param("pager")Pager pager, @Param("order") Order order);
 
-    int selectCount(Order order);
+    int selectCount(@Param("order")Order order);
+
+    int selectByCustomerID (@Param("customerID")Long customerID);
+
 }

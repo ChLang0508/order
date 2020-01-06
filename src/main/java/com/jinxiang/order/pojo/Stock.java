@@ -11,6 +11,26 @@ public class Stock {
 
     private String units;
 
+    private String commodityName;
+
+    private String commodityColor;
+
+    public String getCommodityColor() {
+        return commodityColor;
+    }
+
+    public void setCommodityColor(String commodityColor) {
+        this.commodityColor = commodityColor;
+    }
+
+    public String getCommodityName() {
+        return commodityName;
+    }
+
+    public void setCommodityName(String commodityName) {
+        this.commodityName = commodityName;
+    }
+
     public Long getOrd() {
         return ord;
     }
