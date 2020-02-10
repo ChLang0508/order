@@ -37,6 +37,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Boolean del(Long customerID) throws Exception {
+        if (customerMapper.selectByPrimaryKey(customerID) == null) {
+            throw new Exception("选择的客户不存在");
+        }
         if (orderMapper.selectByCustomerID(customerID) != 0) {
             throw new Exception("所选择的客户存在单据，不允许删除");
         }

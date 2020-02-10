@@ -36,7 +36,6 @@ public class CustomerController {
 
         if (customerService.customerInsert(customer)) {
             return new ResponseEntity<>(200, true, "添加成功", null);
-
         }
         return new ResponseEntity<>(500, false, "添加失败，未知原因", null);
     }

@@ -61,7 +61,7 @@ CREATE TABLE `Order`
 
 CREATE TABLE `OrderDetail`
 (
-	`ord` BIGINT NOT NULL,
+	`ord` BIGINT NOT NULL AUTO_INCREMENT,
 	`orderId` BIGINT NOT NULL,
 	`commodity` BIGINT NOT NULL,
 	`count` DECIMAL(10,4) NOT NULL,

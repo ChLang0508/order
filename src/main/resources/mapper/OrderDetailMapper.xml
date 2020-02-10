@@ -102,4 +102,34 @@
         delete from OrderDetail
         where orderId = #{orderID,jdbcType=BIGINT}
     </delete>
+
+    <insert id="batchInsert">
+
+        insert into OrderDetail (orderId, commodity, count)
+        values
+        <foreach collection="orderDetails" index="index" item="orderDetail" open="" separator="," close="">
+            (
+            #{orderDetail.orderId,jdbcType=BIGINT},
+            #{orderDetail.commodity,jdbcType=BIGINT},
+            #{orderDetail.count,jdbcType=DECIMAL}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="delByIDs">
+        delete from Stock
+        where ord in
+        <foreach collection="IDs" index="index" item="ord" open="(" separator="," close=")">
+            #{IDs}
+        </foreach>
+    </delete>
+    <select id="selectByOrderIDs" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from OrderDetail
+        where orderId in
+        <foreach collection="IDs" index="index" item="IDs" open="(" separator="," close=")">
+            #{IDs}
+        </foreach>
+    </select>
 </mapper>

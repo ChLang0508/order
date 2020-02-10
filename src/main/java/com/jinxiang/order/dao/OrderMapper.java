@@ -1,6 +1,8 @@
 package com.jinxiang.order.dao;
 
+
 import com.jinxiang.order.pojo.Order;
+
 import com.jinxiang.order.tool.Pager;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -26,5 +28,7 @@ public interface OrderMapper {
     int selectCount(@Param("order")Order order);
 
     int selectByCustomerID (@Param("customerID")Long customerID);
+
+
 
 }

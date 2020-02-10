@@ -112,6 +112,7 @@
     <include refid="Base_Column_List" />
     from `Order`
     where customerId = #{customerID,jdbcType=BIGINT}
+    limit 1
   </select>
 
   <sql id="whereSql">
@@ -128,4 +129,5 @@
       and createTime between  #{order.startTime,jdbcType=DATE} and #{order.endTime,jdbcType=DATE}
     </if>
   </sql>
+
 </mapper>

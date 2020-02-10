@@ -105,6 +105,8 @@
     <include refid="whereSql"/>
   </select>
 
+
+
   <sql id="whereSql">
     <if test="stock.commodity != null" >
      and commodity = #{stock.commodity,jdbcType=BIGINT}

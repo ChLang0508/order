@@ -1,5 +1,6 @@
 package com.jinxiang.order.dao;
 
+
 import com.jinxiang.order.pojo.OrderDetail;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -26,5 +27,9 @@ public interface OrderDetailMapper {
 
     int delByOrderId(@Param("orderID") Long orderID);
 
+    int batchInsert(@Param("orderDetails") List<OrderDetail> orderDetails);
 
+    List<OrderDetail> selectByOrderIDs(@Param("IDs") List<Long> IDs);
+
+    int delByIDs(@Param("IDs") List<Long> IDs);
 }

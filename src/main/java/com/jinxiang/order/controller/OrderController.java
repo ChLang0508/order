@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +33,7 @@ public class OrderController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> insert(Order order,
                                     @RequestParam("orderDetailStr") String orderDetailStr) throws Exception {
+
         List<OrderDetail> orderDetails = JSONArray.parseArray(orderDetailStr, OrderDetail.class);
         if (orderDetails.size() == 0) {
             return new ResponseEntity<>(400, false, "单据明细不能为空", null);
@@ -42,7 +44,7 @@ public class OrderController {
         order.setCreateTime(new Date());
         order.setOrderId(null);
         order.setStatus(1);
-        order.setTotalSum(null);
+        order.setTotalSum(new BigDecimal(1));
         if (order.getCustomerId() == null) {
             return new ResponseEntity<>(400, false, "请选择客户", null);
         }

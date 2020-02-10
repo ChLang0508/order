@@ -110,4 +110,16 @@
             and color like concat('%',#{commodity.color,jdbcType=VARCHAR},'%')
         </if>
     </sql>
+
+    <select id="selectByIDs" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Commodity
+        where commodityId in
+        <foreach collection="IDs" index="index" item="IDs" open="(" separator="," close=")">
+        #{IDs}
+        </foreach>
+    </select>
+
+
 </mapper>

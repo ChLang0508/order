@@ -34,12 +34,14 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public Boolean del(Long commodityID) throws Exception {
-        if (orderDetailMapper.selectByCommodityID(commodityID) != 0) {
-            throw new Exception("商品已被其他订单使用，不能删除");
-        }
         if (commodityMapper.selectByPrimaryKey(commodityID) == null) {
             throw new Exception("选择删除的商品不存在");
         }
+
+        if (orderDetailMapper.selectByCommodityID(commodityID) != 0) {
+            throw new Exception("商品已被其他订单使用，不能删除");
+        }
+
         return commodityMapper.deleteByPrimaryKey(commodityID) == 1;
     }
 

@@ -26,5 +26,5 @@ public interface StockMapper {
 
     List<Order> selectBySelective(@Param("pager") Pager pager, @Param("stock") Stock stock);
 
-    int selectCount(@Param("stock")Stock stock);
+    int selectCount(@Param("stock") Stock stock);
 }

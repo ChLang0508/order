@@ -1,9 +1,9 @@
 package com.jinxiang.order.dao;
 
 import com.jinxiang.order.pojo.Commodity;
-import com.jinxiang.order.pojo.Order;
 import com.jinxiang.order.tool.Pager;
 import org.apache.ibatis.annotations.Param;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,4 +25,9 @@ public interface CommodityMapper {
     List<Commodity> selectBySelective(@Param("pager") Pager pager, @Param("commodity") Commodity commodity);
 
     int selectCount(@Param("commodity")Commodity commodity);
+
+    List<Commodity> selectByIDs(@Param("IDs") List<Long> IDs);
+
+
+
 }
